@@ -1,0 +1,4 @@
+#cloud-config
+runcmd:
+- echo "nslookup $(hostname).unil.ch | awk -F': ' 'NR==6 { print $2 } '" > /home/rancher/ip.conf
+- echo "nslookup $(hostname).mgmt.unil.ch | awk -F': ' 'NR==6 { print $2 } '" > /home/rancher/ip-mgmt.conf
