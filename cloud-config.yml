@@ -2,3 +2,11 @@
 runcmd:
 - echo "nslookup $(hostname).unil.ch | awk -F': ' 'NR==6 { print $2 } '" > /home/rancher/ip.conf
 - echo "nslookup $(hostname).mgmt.unil.ch | awk -F': ' 'NR==6 { print $2 } '" > /home/rancher/ip-mgmt.conf
+
+rancher:
+write_files:
+  - path: /home/rancher/test.conf
+    permissions: "0755"
+    owner: rancher
+    content: |
+      test
