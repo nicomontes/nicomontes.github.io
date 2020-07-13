@@ -2,11 +2,11 @@
 runcmd:
   - nslookup $(hostname).unil.ch | tail -1 | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ > /home/rancher/ip.conf
   - nslookup $(hostname).mgmt.unil.ch | tail -1 | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ > /home/rancher/ip-mgmt.conf
-  - sudo ros config set rancher.network.interfaces.eth0.address $(cat /home/rancher/ip-mgmt.conf)/22
-  - sudo ros config set rancher.network.interfaces.eth0.gateway 10.155.12.1
-  - sudo ros config set rancher.network.interfaces.eth0.mtu 1500
-  - sudo ros config set rancher.network.interfaces.eth0.dhcp false
-  - sudo ros config set rancher.network.interfaces.eth1.address $(cat /home/rancher/ip.conf)/24
-  - sudo ros config set rancher.network.interfaces.eth1.gateway 10.246.3.1
-  - sudo ros config set rancher.network.interfaces.eth1.mtu 1500
-  - sudo ros config set rancher.network.interfaces.eth1.dhcp false
+  - ros config set rancher.network.interfaces.eth0.address $(cat /home/rancher/ip-mgmt.conf)/22
+  - ros config set rancher.network.interfaces.eth0.gateway 10.155.12.1
+  - ros config set rancher.network.interfaces.eth0.mtu 1500
+  - ros config set rancher.network.interfaces.eth0.dhcp false
+  - ros config set rancher.network.interfaces.eth1.address $(cat /home/rancher/ip.conf)/24
+  - ros config set rancher.network.interfaces.eth1.gateway 10.246.3.1
+  - ros config set rancher.network.interfaces.eth1.mtu 1500
+  - ros config set rancher.network.interfaces.eth1.dhcp false
