@@ -7,11 +7,6 @@ write_files:
       #!/bin/bash
       nslookup $(hostname).unil.ch | tail -1 | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ > /home/rancher/ip.conf
       nslookup $(hostname).mgmt.unil.ch | tail -1 | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ > /home/rancher/ip-mgmt.conf
-      ros config set rancher.network.interfaces.eth0.address $(cat /home/rancher/ip-mgmt.conf)/22
-      ros config set rancher.network.interfaces.eth0.gateway 10.155.12.1
-      ros config set rancher.network.interfaces.eth0.mtu 1500
-      ros config set rancher.network.interfaces.eth0.dhcp false
-      ros config set rancher.network.interfaces.eth1.address $(cat /home/rancher/ip.conf)/24
-      ros config set rancher.network.interfaces.eth1.gateway 10.246.3.1
-      ros config set rancher.network.interfaces.eth1.mtu 1500
-      ros config set rancher.network.interfaces.eth1.dhcp false
+      ip addr add $(cat /home/rancher/ip-mgmt.conf)/22 dev eth0
+      ip addr add $(cat /home/rancher/ip.conf)/24 dev eth1
+      ip route add default via 10.246.3.1
