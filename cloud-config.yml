@@ -1,9 +1,4 @@
 #cloud-config
-write_files:
-  - path: /etc/rc.local
-    permissions: "0755"
-    owner: root
-    content: |
-      #!/bin/bash
-      echo "nslookup $(hostname).unil.ch | awk -F': ' 'NR==6 { print $2 } '" > /home/rancher/ip.conf
-      echo "nslookup $(hostname).mgmt.unil.ch | awk -F': ' 'NR==6 { print $2 } '" > /home/rancher/ip-mgmt.conf
+runcmd:
+  - echo "nslookup $(hostname).unil.ch | awk -F': ' 'NR==6 { print $2 } '" > /home/rancher/ip.conf
+  - echo "nslookup $(hostname).mgmt.unil.ch | awk -F': ' 'NR==6 { print $2 } '" > /home/rancher/ip-mgmt.conf
