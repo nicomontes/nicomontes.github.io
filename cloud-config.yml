@@ -1,5 +1,4 @@
 #cloud-config
-rancher:
 write_files:
   - path: /etc/rc.local
     permissions: "0755"
