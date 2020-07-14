@@ -7,11 +7,13 @@ write_files:
     content: |
       #!/bin/bash
       wait-for-docker
-      sudo nslookup $(hostname).unil.ch | tail -1 | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ > /home/rancher/ip_rc.conf
-      sudo nslookup $(hostname).mgmt.unil.ch | tail -1 | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ > /home/rancher/ip-mgmt_rc.conf
+      nslookup $(hostname).unil.ch | tail -1 | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ > /home/rancher/ip.conf
+      nslookup $(hostname).mgmt.unil.ch | tail -1 | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ > /home/rancher/ip-mgmt.conf
+      ip addr flush dev eth0
+      ip addr flush dev eth1
+      ip addr add $(cat /home/rancher/ip-mgmt.conf)/22 dev eth0
+      ip addr add $(cat /home/rancher/ip.conf)/24 dev eth1
+      ip route add default via 10.246.3.1
       
 runcmd:
- - nslookup $(hostname).unil.ch | tail -1 | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ > /home/rancher/ip.conf && nslookup $(hostname).mgmt.unil.ch | tail -1 | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ > /home/rancher/ip-mgmt.conf
- - ip addr flush dev eth0 && ip addr flush dev eth1
- - ip addr add $(cat /home/rancher/ip-mgmt.conf)/22 dev eth0 && ip addr add $(cat /home/rancher/ip.conf)/24 dev eth1
- - ip route add default via 10.246.3.1
+ - [sudo, /etc/rc.local]
