@@ -1,34 +1,9 @@
 #cloud-config
-rancher:
-write_files:
-  - path: /etc/rc.local
-    permissions: "0755"
-    owner: root
-    content: |
-      #!/bin/bash
-      wait-for-docker
-      nslookup $(hostname).unil.ch | tail -1 | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ > /home/rancher/ip.conf
-      nslookup $(hostname).mgmt.unil.ch | tail -1 | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ > /home/rancher/ip-mgmt.conf
-      ip addr flush dev eth0
-      ip addr flush dev eth1
-      ip addr add $(cat /home/rancher/ip-mgmt.conf)/22 dev eth0
-      ip addr add $(cat /home/rancher/ip.conf)/24 dev eth1
-      ip route add default via 10.246.3.1
-      
-write_files:
-  - path: /home/rancher/boot.sh
-    permissions: "0755"
-    owner: rancher
-    content: |
-      #!/bin/bash
-      wait-for-docker
-      nslookup $(hostname).unil.ch | tail -1 | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ > /home/rancher/ip.conf
-      nslookup $(hostname).mgmt.unil.ch | tail -1 | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ > /home/rancher/ip-mgmt.conf
-      ip addr flush dev eth0
-      ip addr flush dev eth1
-      ip addr add $(cat /home/rancher/ip-mgmt.conf)/22 dev eth0
-      ip addr add $(cat /home/rancher/ip.conf)/24 dev eth1
-      ip route add default via 10.246.3.1
-      
 runcmd:
- - [sudo, /home/rancher/boot.sh]
+- nslookup $(hostname).unil.ch | tail -1 | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ > /home/rancher/ip.conf
+- nslookup $(hostname).mgmt.unil.ch | tail -1 | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ > /home/rancher/ip-mgmt.conf
+- ip addr flush dev eth0
+- ip addr flush dev eth1
+- ip addr add $(cat /home/rancher/ip-mgmt.conf)/22 dev eth0
+- ip addr add $(cat /home/rancher/ip.conf)/24 dev eth1
+- ip route add default via 10.246.3.1
