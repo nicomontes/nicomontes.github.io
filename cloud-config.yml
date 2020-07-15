@@ -17,4 +17,4 @@ write_files:
       ip route add default via 10.246.3.1
 
 runcmd:
-- [/home/rancher/init.sh]
+- /home/rancher/init.sh
