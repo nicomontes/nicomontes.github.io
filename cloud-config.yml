@@ -1,9 +1,9 @@
 #cloud-config
 rancher:
 write_files:
-  - path: /etc/rc.local
+  - path: /home/rancher/test.sh
     permissions: "0755"
-    owner: root
+    owner: rancher
     content: |
       #!/bin/bash
       wait-for-docker
