@@ -7,7 +7,6 @@ write_files:
     content: |
       #!/bin/bash
       wait-for-docker
-      sleep 60
       nslookup $(hostname).unil.ch | tail -1 | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ > /home/rancher/ip.conf
       nslookup $(hostname).mgmt.unil.ch | tail -1 | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ > /home/rancher/ip-mgmt.conf
       ip addr flush dev eth0
@@ -17,4 +16,4 @@ write_files:
       ip route add default via 10.246.3.1
 
 runcmd:
-- /home/rancher/init.sh
+- sudo /home/rancher/init.sh
