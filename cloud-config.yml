@@ -1,7 +1,7 @@
 #cloud-config
 rancher:
 write_files:
-  - path: /home/rancher/init.sh
+  - path: /etc/rc.local
     permissions: "0755"
     owner: rancher
     content: |
@@ -14,6 +14,3 @@ write_files:
       ip addr add $(cat /home/rancher/ip-mgmt.conf)/22 dev eth0
       ip addr add $(cat /home/rancher/ip.conf)/24 dev eth1
       ip route add default via 10.246.3.1
-
-runcmd:
-- sudo /home/rancher/init.sh
